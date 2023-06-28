@@ -13,34 +13,39 @@ public class Item extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(nullable = false)
-    private Boolean isActive;
-
-    private String description;
-
     @NaturalId
     @Column(unique = true, updatable = false, nullable = false)
     private String sku;
-
-    private String imageUrl;
-
-    private String name;
-    private String instructionUrl;
+    @JoinColumn(nullable = false)
+    private Boolean isActive;
 
     @Column(updatable = false, nullable = false)
     private String ownerId;
+
+    private String name;
+
+    private String description;
+
     private String characteristics;
+
+    private String imageUrl;
+
+    private String instructionUrl;
 
     public Item() { super(); }
 
-    public Item(String description, String sku, String imageUrl, String name, String instructionUrl, String ownerId, String characteristics) {
-        this.description = description;
-        this.sku = sku;
-        this.imageUrl = imageUrl;
-        this.name = name;
-        this.instructionUrl = instructionUrl;
+    public Item(String ownerId,
+                String name,
+                String description,
+                String characteristics,
+                String imageUrl,
+                String instructionUrl) {
         this.ownerId = ownerId;
+        this.name = name;
+        this.description = description;
         this.characteristics = characteristics;
+        this.imageUrl = imageUrl;
+        this.instructionUrl = instructionUrl;
     }
 
     public Long getId() {
@@ -51,12 +56,12 @@ public class Item extends DateAudit {
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
     public String getDescription() {
