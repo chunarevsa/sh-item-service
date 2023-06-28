@@ -59,7 +59,7 @@ class ItemController(
 
     @PostMapping("/{id}/deactivate")
     fun deactivate(@PathVariable id: Long): ResponseEntity<Void> {
-        log.debug("REST request to deactivate user : {}", id)
+        log.debug("REST request to deactivate $ENTITY_NAME : {}", id)
         itemService.deactivateItem(id)
         return ResponseEntity.noContent()
             .headers(
@@ -68,5 +68,12 @@ class ItemController(
                 )
             ).build()
     }
+
+    @GetMapping("/{id}/check-availability")
+    fun checkAvailability(@PathVariable id: Long): Boolean {
+        log.debug("REST request to check availability $ENTITY_NAME : {}", id)
+        return itemService.checkAvailability(id)
+    }
+
 
 }

@@ -29,9 +29,7 @@ class ItemService(
     }
 
     fun updateItem(itemId: Long, req: UpdateItemRequest): Item {
-        val item = itemRepository.findById(itemId)
-            .map { it }
-            .orElseThrow { NotFoundException("item", itemId.toString()) }
+        val item = findItem(itemId)
         req.name.let { item.name = it }
         req.description.let { item.description = it }
         req.characteristics.let { item.characteristics = it }
@@ -42,9 +40,23 @@ class ItemService(
     }
 
     fun deactivateItem(itemId: Long) {
-        val item = itemRepository.findById(itemId).map { it }.orElseThrow { NotFoundException("item", itemId.toString()) }
+        val item = findItem(itemId)
         item.isActive = false
         itemRepository.save(item)
     }
+
+    fun checkAvailability(itemId: Long): Boolean {
+        val item = itemRepository.findById(itemId)
+        return item.isPresent && item.get().isActive
+    }
+
+    fun bookItems(itemId: Long, amount: Long ,userId: Long) {
+        val item = findItem(itemId)
+        // TODO: Just do it
+
+    }
+
+    private fun findItem(itemId: Long) =
+        itemRepository.findById(itemId).map { it }.orElseThrow { NotFoundException("item", itemId.toString()) }
 
 }
